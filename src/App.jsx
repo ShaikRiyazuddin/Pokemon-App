@@ -1,14 +1,15 @@
 import './App.css';
-import {Counter} from "./components/counter";
-import {Todo} from "./components/todo";
-import {User} from "./components/form"
+import {Home} from "./components/home";
+import {Routes, Route} from "react-router-dom"
+import {HoroDetails} from "./components/horoDetails";
 
 function App() {
   return (
     <div className="App">
-      {/* <Counter />
-      <Todo /> */}
-      <User />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/horo" element={<HoroDetails />} />
+      </Routes>
     </div>
   );
 }

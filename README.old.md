@@ -1,2 +1,1 @@
-# Pokemon-App
-Pokemon Store 
+# Horoscope-App
