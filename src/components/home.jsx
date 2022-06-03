@@ -10,25 +10,71 @@ import {useState} from "react";
 import { useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import {UserContext} from "../context/userContext";
-import validator from 'validator';
+import Slider from '@mui/material/Slider';
+import { styled } from '@mui/material/styles';
+import Typography from '@mui/material/Typography';
+import { circularProgressClasses } from "@mui/material";
+
 
 
 
 export const Home = () => {
   const [nameError, setNameError] = useState(false);
   const [signError, setSignError] = useState(false);
-  const [dayError, setDayError] = useState(false);
-  const [dirty, setDirty] = useState(false);
   const [userData, setUserData] = useState([]);
-  const [emailError, setEmailError] = useState(false);  
+  const [codeError, setCodeError] = useState(false);  
+
   const [user, setUser] = useState({
     name: '',
-    email: '',
-    sign: '',
-    day:"",
-  })
+    code: '',
+    range:0,
+    region:""
+  });
+
+  const handleRange = (e) =>{
+    // console.log(e.target.value)
+  }
 
   const navigate = useNavigate();
+
+  const PrettoSlider = styled(Slider)({
+    color: '#52af77',
+    height: 8,
+    '& .MuiSlider-track': {
+      border: 'none',
+    },
+    '& .MuiSlider-thumb': {
+      height: 24,
+      width: 24,
+      backgroundColor: '#fff',
+      border: '2px solid currentColor',
+      '&:focus, &:hover, &.Mui-active, &.Mui-focusVisible': {
+        boxShadow: 'inherit',
+      },
+      '&:before': {
+        display: 'none',
+      },
+    },
+    '& .MuiSlider-valueLabel': {
+      lineHeight: 1.2,
+      fontSize: 12,
+      background: 'unset',
+      padding: 0,
+      width: 32,
+      height: 32,
+      borderRadius: '50% 50% 50% 0',
+      backgroundColor: '#52af77',
+      transformOrigin: 'bottom left',
+      transform: 'translate(50%, -100%) rotate(-45deg) scale(0)',
+      '&:before': { display: 'none' },
+      '&.MuiSlider-valueLabelOpen': {
+        transform: 'translate(50%, -100%) rotate(-45deg) scale(1)',
+      },
+      '& > *': {
+        transform: 'rotate(45deg)',
+      },
+    },
+  });
 
   // Use data from context 
   const {handleUser} = useContext(UserContext)
@@ -38,25 +84,16 @@ export const Home = () => {
   const handleInput = (e) => {
     const {name,value} = e.target;
     setUser({...user,[name]:value});
-
-    
-    //Validating Email Address
-    if (validator.isEmail(user.email)) {
-      setEmailError(true);
-      setDirty(false)
-    } else {
-      setEmailError(false)
-    }
   } 
-
+  // console.log(user)
  
   // handling form submit
   const handleSubmit = (e) => {
     e.preventDefault();
     setNameError(false);
-    setEmailError(false); 
+    setCodeError(false); 
     setSignError(false);
-    setDayError(false);
+
 
  
     //Validating user inputs
@@ -71,11 +108,7 @@ export const Home = () => {
       setSignError(true);
     }
 
-    if(user.day === ""){
-      setDayError(true);
-    }
-
-    if(user.name && emailError && user.sign && user.day){
+    if(user.name && codeError && user.sign ){
       setUserData(user)
       handleUser(user)
       navigate("/horo")
@@ -83,7 +116,28 @@ export const Home = () => {
     }
   }
   
-  
+  const kanto = [
+    {img:"https://assets.pokemon.com/assets/cms2/img/pokedex/detail/001.png" , name:"Bulbasaur"},
+    {img:"https://assets.pokemon.com/assets/cms2/img/pokedex/detail/004.png", name:"Charmander"},  
+    {img:"https://assets.pokemon.com/assets/cms2/img/pokedex/detail/007.png", name:"Squirtle"},
+  ]
+
+  const jhoto = [
+    {img:"https://assets.pokemon.com/assets/cms2/img/pokedex/detail/152.png", value :"Riyaz"},
+    {img:'https://assets.pokemon.com/assets/cms2/img/pokedex/detail/155.png', value :"Rahim"},
+    {img:"https://assets.pokemon.com/assets/cms2/img/pokedex/detail/158.png", value :"Sana"}
+  ]
+
+  const hoenn = [
+    {img:"https://assets.pokemon.com/assets/cms2/img/pokedex/detail/252.png"},
+    {img:"https://assets.pokemon.com/assets/cms2/img/pokedex/detail/255.png"},
+    {img:"https://assets.pokemon.com/assets/cms2/img/pokedex/detail/258.png"}
+  ]
+
+
+  const handleImage = (e) =>{
+    console.log(e)
+  }
   return (
       <div className = {styles.background}>
           <h1 className = {styles.h1}>Pokemon App</h1>
@@ -110,72 +164,80 @@ export const Home = () => {
           onChange = {handleInput}
           required
           id="outlined-required"
-          label="Enter your name"
+          label="Full name"
           name = "name"
           value = {user.name}
         />
       </div>
       <div>
-        <TextField
-         error={dirty && emailError === false}  
-         style ={{width: '100%'}}
-         onChange = {handleInput}
-
-         onBlur={() => setDirty(true)}
-         required
-         id="outlined-required"
-         label="Enter your Email"
-         name = "email"
-         value = {user.email}
-         
+        <TextField  
+          style ={{width: '100%'}}
+          fullWidth
+          shrink = "true"
+          color = "primary"
+          error = {codeError}
+          onChange = {handleInput}
+          required
+          id="outlined-required"
+          label="Code name"
+          name = "code"
+          value = {user.code}
         />
       </div>
+      <Box sx={{ m: 3 }} />
+      <PrettoSlider
+        valueLabelDisplay="auto"
+        aria-label="Slider"
+        defaultValue={0}
+        max={100}
+        onChange = {handleInput}
+        name = "range"
+        value = {user.range}
+      />
+      <Typography gutterBottom >How far is your nearest pokemon center? (in KMs)</Typography>
+    
       <div>
       <FormControl required style ={{width: '100%'}} sx={{ m: 1}}>
-        <InputLabel id="demo-simple-select-required-label">Select Horoscope</InputLabel>
+        <InputLabel id="demo-simple-select-required-label">Starting Region</InputLabel>
         
         <Select
           error = {signError}
           labelId="demo-simple-select-required-label"
           id="demo-simple-select-required"
-          label="Select Horoscope"
+          label="Starting Region"
           onChange={handleInput}
-          name = "sign"
-          value = {user.sign}
+          name = "region"
+          value = {user.region}
           
         >
-          <MenuItem value={"Aries"}>Aries</MenuItem>
-          <MenuItem value={"Taurus"}>Taurus</MenuItem>
-          <MenuItem value={"Gemini"}>Gemini</MenuItem>
-          <MenuItem value={"Cancer"}>Cancer</MenuItem>
-          <MenuItem value={"Leo"}>Leo</MenuItem>
-          <MenuItem value={"Virgo"}>Virgo</MenuItem>
-          <MenuItem value={"Libra"}>Libra</MenuItem>
-          <MenuItem value={"Scorpio"}>Scorpio</MenuItem>
-          <MenuItem value={"Sagittarius"}>Sagittarius</MenuItem>
-          <MenuItem value={"Capricorn"}>Capricorn</MenuItem>
-          <MenuItem value={"Aquarius"}>Aquarius</MenuItem>
-          <MenuItem value={"Pisces"}>Pisces</MenuItem>
+          <MenuItem value={"Kanto"}>Kanto</MenuItem>
+          <MenuItem value={"Jhoto"}>Jhoto</MenuItem>
+          <MenuItem value={"Hoenn"}>Hoenn</MenuItem>
         </Select>
       </FormControl>
       </div>
-      <div>
-      <FormControl required style ={{width: '100%'}} sx={{ m: 1}}>
-        <InputLabel id="demo-simple-select-required-label">Select Day</InputLabel>
-        <Select
-          error = {dayError}
-          labelId="demo-simple-select-required-label"
-          id="demo-simple-select-required"
-          label="Select Day"
-          onChange={handleInput}
-          name = "day"
-          value = {user.day}
-        >
-          <MenuItem value={"today"}>Today</MenuItem>
-          <MenuItem value={"tomorrow"}>Tomorrow</MenuItem>
-          <MenuItem value={"yesterday"}>Yesterday</MenuItem>
-        </Select>
-      </FormControl>
+      <div className = {styles.regionImage}>
+          {user.region === "Kanto" ? kanto.map((item,index) => {
+            console.log(item.name)
+            return(
+              <div onClick = {handleImage} >
+                 <img  data-price="60 million USD" width="120" height="100"src={item.img}  />
+              </div>
+            )
+          }): user.region === "Jhoto" ? jhoto.map((item,index) => {
+            console.log(item.value)
+            return(
+              <div   onClick = {handleImage} >
+                 <img  width="120" height="100" src={item.img}  />
+              </div>
+            )
+          }): user.region === "Hoenn" ? hoenn.map((item,index) => {
+            return(
+              <div   onClick = {handleImage} >
+                 <img  width="120" height="100" src={item.img}  />
+              </div>
+            )
+          }): null}
       </div>
       <Button  style ={{width: '100%'}} sx={{ m: 1}} type  = "submit" variant = "contained">Submit</Button>
     </Box>
