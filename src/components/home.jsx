@@ -13,7 +13,9 @@ import {UserContext} from "../context/userContext";
 import Slider from '@mui/material/Slider';
 import { styled } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
-import { circularProgressClasses } from "@mui/material";
+// import { circularProgressClasses } from "@mui/material";
+import {v4 as uuid} from "uuid";
+import "./styles/test.css";
 
 
 
@@ -23,6 +25,7 @@ export const Home = () => {
   const [signError, setSignError] = useState(false);
   const [userData, setUserData] = useState([]);
   const [codeError, setCodeError] = useState(false);  
+  const [imgCircle, setImgCircle] = useState(false)
 
   const [user, setUser] = useState({
     name: '',
@@ -31,9 +34,6 @@ export const Home = () => {
     region:""
   });
 
-  const handleRange = (e) =>{
-    // console.log(e.target.value)
-  }
 
   const navigate = useNavigate();
 
@@ -117,26 +117,27 @@ export const Home = () => {
   }
   
   const kanto = [
-    {img:"https://assets.pokemon.com/assets/cms2/img/pokedex/detail/001.png" , name:"Bulbasaur"},
-    {img:"https://assets.pokemon.com/assets/cms2/img/pokedex/detail/004.png", name:"Charmander"},  
-    {img:"https://assets.pokemon.com/assets/cms2/img/pokedex/detail/007.png", name:"Squirtle"},
+    {img:"https://assets.pokemon.com/assets/cms2/img/pokedex/detail/001.png" , alt:"Bulbasaur"},
+    {img:"https://assets.pokemon.com/assets/cms2/img/pokedex/detail/004.png", alt:"Charmander"},  
+    {img:"https://assets.pokemon.com/assets/cms2/img/pokedex/detail/007.png", alt:"Squirtle"},
   ]
 
   const jhoto = [
-    {img:"https://assets.pokemon.com/assets/cms2/img/pokedex/detail/152.png", value :"Riyaz"},
-    {img:'https://assets.pokemon.com/assets/cms2/img/pokedex/detail/155.png', value :"Rahim"},
-    {img:"https://assets.pokemon.com/assets/cms2/img/pokedex/detail/158.png", value :"Sana"}
+    {img:"https://assets.pokemon.com/assets/cms2/img/pokedex/detail/152.png", alt :"Chikorita"},
+    {img:'https://assets.pokemon.com/assets/cms2/img/pokedex/detail/155.png', alt :"Cyndaquil"},
+    {img:"https://assets.pokemon.com/assets/cms2/img/pokedex/detail/158.png", alt :"Totodile"}
   ]
 
   const hoenn = [
-    {img:"https://assets.pokemon.com/assets/cms2/img/pokedex/detail/252.png"},
-    {img:"https://assets.pokemon.com/assets/cms2/img/pokedex/detail/255.png"},
-    {img:"https://assets.pokemon.com/assets/cms2/img/pokedex/detail/258.png"}
+    {img:"https://assets.pokemon.com/assets/cms2/img/pokedex/detail/252.png", alt :"Treecko"},
+    {img:"https://assets.pokemon.com/assets/cms2/img/pokedex/detail/255.png", alt:"Torchic"},
+    {img:"https://assets.pokemon.com/assets/cms2/img/pokedex/detail/258.png", alt:"Mudkip"}
   ]
 
 
   const handleImage = (e) =>{
-    console.log(e)
+    console.log(e.target.alt)
+    setImgCircle(true)
   }
   return (
       <div className = {styles.background}>
@@ -218,23 +219,21 @@ export const Home = () => {
       </div>
       <div className = {styles.regionImage}>
           {user.region === "Kanto" ? kanto.map((item,index) => {
-            console.log(item.name)
             return(
-              <div onClick = {handleImage} >
-                 <img  data-price="60 million USD" width="120" height="100"src={item.img}  />
+              <div key = {uuid()} >
+                 <img className = {`${imgCircle ? "rounded" : ""}`} onClick = {handleImage} alt = {item.alt}   width="120" height="100"src={item.img}  />
               </div>
             )
           }): user.region === "Jhoto" ? jhoto.map((item,index) => {
-            console.log(item.value)
             return(
-              <div   onClick = {handleImage} >
-                 <img  width="120" height="100" src={item.img}  />
+              <div key = {uuid()} >
+                 <img onClick = {handleImage}  alt = {item.alt}   width="120" height="100" src={item.img}  />
               </div>
             )
           }): user.region === "Hoenn" ? hoenn.map((item,index) => {
             return(
-              <div   onClick = {handleImage} >
-                 <img  width="120" height="100" src={item.img}  />
+              <div  key = {uuid()}  >
+                 <img onClick = {handleImage} alt = {item.alt}   width="120" height="100" src={item.img}  />
               </div>
             )
           }): null}
