@@ -16,6 +16,8 @@ import Typography from '@mui/material/Typography';
 // import { circularProgressClasses } from "@mui/material";
 import {v4 as uuid} from "uuid";
 import "./styles/test.css";
+import AddCircleIcon from '@mui/icons-material/AddCircle';
+import { pink } from '@mui/material/colors';
 
 
 
@@ -25,7 +27,8 @@ export const Home = () => {
   const [signError, setSignError] = useState(false);
   const [userData, setUserData] = useState([]);
   const [codeError, setCodeError] = useState(false);  
-  const [region, setRegion] = useState("")
+  const [region, setRegion] = useState("");
+  const [starter, setStarter] = useState("");
 
   const [user, setUser] = useState({
     name: '',
@@ -77,15 +80,16 @@ export const Home = () => {
   });
 
   // Use data from context 
-  const {handleUser} = useContext(UserContext)
-
+  const { totalCost, itemsQuantity} = useContext(UserContext)
+  
+  console.log(itemsQuantity, totalCost)
 
   //handle form inputs..
   const handleInput = (e) => {
     const {name,value} = e.target;
     setUser({...user,[name]:value});
   } 
-  // console.log(user)
+
  
   // handling form submit
   const handleSubmit = (e) => {
@@ -110,8 +114,8 @@ export const Home = () => {
 
     if(user.name && codeError && user.sign ){
       setUserData(user)
-      handleUser(user)
-      navigate("/horo")
+      // handleUser(user)
+      
 
     }
   }
@@ -136,8 +140,16 @@ export const Home = () => {
 
 
   const handleImage = (e) =>{
-    console.log(e.target.alt)
+   
+    setStarter(e.target.alt)
+    
   }
+ 
+
+  const handleItems = (e) =>{ 
+    navigate("/order")
+  }
+
   return (
       <div className = {styles.background}>
           <h1 className = {styles.h1}>Pokemon App</h1>
@@ -217,25 +229,40 @@ export const Home = () => {
       </FormControl>
       </div>
       <div className = {styles.regionImage}>
-          {user.region === "Kanto" ? kanto.map((item,index) => {
+          {user.region === "Kanto" ? kanto.map((item) => {
             return(
               <div key = {uuid()} >
                  <img className = {styles.buttonRound}  onClick = {handleImage} tabIndex="0" alt = {item.alt}   width="120" height="100"src={item.img}  />
               </div>
             )
-          }): user.region === "Jhoto" ? jhoto.map((item,index) => {
+          }): user.region === "Jhoto" ? jhoto.map((item) => {
             return(
               <div key = {uuid()} >
                  <img  className = {styles.buttonRound} onClick = {handleImage} tabIndex="0"  alt = {item.alt}   width="120" height="100" src={item.img}  />
               </div>
             )
-          }): user.region === "Hoenn" ? hoenn.map((item,index) => {
+          }): user.region === "Hoenn" ? hoenn.map((item) => {
             return(
               <div  key = {uuid()}  >
                  <img className = {styles.buttonRound} onClick = {handleImage} tabIndex="0" alt = {item.alt}   width="120" height="100" src={item.img}  />
               </div>
             )
           }): null}
+      </div>
+
+      <div className = {styles.packItems}>
+        <p>What do you want to pack  </p>
+        <AddCircleIcon fontSize="large" onClick = {handleItems} sx={{ color: pink[500] }}/>
+      </div>
+
+      <div className = {styles.showItems}>
+          <p>{itemsQuantity}</p>
+      </div>
+
+
+      <div className = {styles.totalCost}>
+        <h4>Total cost:</h4>
+        <h4>${totalCost}</h4>
       </div>
       <Button  style ={{width: '100%'}} sx={{ m: 1}} type  = "submit" variant = "contained">Submit</Button>
     </Box>

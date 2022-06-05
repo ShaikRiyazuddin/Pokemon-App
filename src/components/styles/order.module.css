@@ -10,7 +10,6 @@ body, html {
     background-attachment: fixed;
     margin-top: -35px; 
     background-size: 100% 100%;
- 
     width: 100vw;
   }
  .h1{
@@ -62,12 +61,24 @@ body, html {
     padding-top: 10px;
     align-items: center;
  }
-.totalCost{
-  display: flex;
-  justify-content: space-between;
-  padding-top: 10px;
-  
-}
+
+
+ /* //////////////////////////////////// */
+
+ .toggle{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 10px;
+ }
+
+ .cost{
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+   margin-top: 10px;
+ }
+
 
 
 
