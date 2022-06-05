@@ -13,7 +13,7 @@ import Typography from '@mui/material/Typography';
 import Switch from '@mui/material/Switch';
 import { useContext } from "react";
 import {UserContext} from "../context/userContext";
-
+import { useNavigate } from "react-router-dom";
 
 
 export const Order = () => {
@@ -32,11 +32,13 @@ export const Order = () => {
 
     const handleSubmit = (e) => {
       e.preventDefault();
-      setQuantity(range + " " + item);
+      // setQuantity(range + " " + item);
       handleItems(quantity);
       handleCost(total);
+      navigate("/")
     }
 
+    const navigate = useNavigate();
 
     const PrettoSlider = styled(Slider)({
         color: '#52af77',
@@ -110,7 +112,7 @@ export const Order = () => {
     const calculate = () => {
         if(price != 0 && range != 0){
           setTotal(price*range) 
-          
+          setQuantity(range + " " + item);
         }
     }
 
