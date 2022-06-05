@@ -25,7 +25,7 @@ export const Home = () => {
   const [signError, setSignError] = useState(false);
   const [userData, setUserData] = useState([]);
   const [codeError, setCodeError] = useState(false);  
-  const [imgCircle, setImgCircle] = useState(false)
+  const [region, setRegion] = useState("")
 
   const [user, setUser] = useState({
     name: '',
@@ -137,7 +137,6 @@ export const Home = () => {
 
   const handleImage = (e) =>{
     console.log(e.target.alt)
-    setImgCircle(true)
   }
   return (
       <div className = {styles.background}>
@@ -221,19 +220,19 @@ export const Home = () => {
           {user.region === "Kanto" ? kanto.map((item,index) => {
             return(
               <div key = {uuid()} >
-                 <img className = {`${imgCircle ? "rounded" : ""}`} onClick = {handleImage} alt = {item.alt}   width="120" height="100"src={item.img}  />
+                 <img className = {styles.buttonRound}  onClick = {handleImage} tabIndex="0" alt = {item.alt}   width="120" height="100"src={item.img}  />
               </div>
             )
           }): user.region === "Jhoto" ? jhoto.map((item,index) => {
             return(
               <div key = {uuid()} >
-                 <img onClick = {handleImage}  alt = {item.alt}   width="120" height="100" src={item.img}  />
+                 <img  className = {styles.buttonRound} onClick = {handleImage} tabIndex="0"  alt = {item.alt}   width="120" height="100" src={item.img}  />
               </div>
             )
           }): user.region === "Hoenn" ? hoenn.map((item,index) => {
             return(
               <div  key = {uuid()}  >
-                 <img onClick = {handleImage} alt = {item.alt}   width="120" height="100" src={item.img}  />
+                 <img className = {styles.buttonRound} onClick = {handleImage} tabIndex="0" alt = {item.alt}   width="120" height="100" src={item.img}  />
               </div>
             )
           }): null}
