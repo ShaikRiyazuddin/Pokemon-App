@@ -18,9 +18,10 @@ import {v4 as uuid} from "uuid";
 import "./styles/test.css";
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { pink } from '@mui/material/colors';
+import CancelIcon from '@mui/icons-material/Cancel';
 
 
-
+const dummyArr = [];
 
 export const Home = () => {
   const [nameError, setNameError] = useState(false);
@@ -29,6 +30,7 @@ export const Home = () => {
   const [codeError, setCodeError] = useState(false);  
   const [region, setRegion] = useState("");
   const [starter, setStarter] = useState("");
+  const [final, setFinal] = useState([])
 
   const [user, setUser] = useState({
     name: '',
@@ -37,7 +39,8 @@ export const Home = () => {
     region:""
   });
 
-
+  // dummyArr.push(user);
+  // console.log(dummyArr)
   const navigate = useNavigate();
 
   const PrettoSlider = styled(Slider)({
@@ -80,9 +83,10 @@ export const Home = () => {
   });
 
   // Use data from context 
-  const { totalCost, itemsQuantity} = useContext(UserContext)
+  const { totalCost, itemsQuantity,handleCompleteDetails} = useContext(UserContext)
   
-  console.log(itemsQuantity, totalCost)
+  // console.log(itemsQuantity)
+  
 
   //handle form inputs..
   const handleInput = (e) => {
@@ -112,12 +116,24 @@ export const Home = () => {
       setSignError(true);
     }
 
-    if(user.name && codeError && user.sign ){
+    if(user.name ){
+      console.log("here")
       setUserData(user)
       // handleUser(user)
-      
-
+      const obj = {
+        name: user.name,
+        code: user.code,
+        range: user.range,
+        region: user.region,
+        starter:starter,
+        items:itemsQuantity,
+        totalCost:totalCost
+      }
+      // console.log(obj)
+      handleCompleteDetails(obj)
+      navigate("/modal");
     }
+    
   }
   
   const kanto = [
@@ -150,6 +166,11 @@ export const Home = () => {
     navigate("/order")
   }
 
+  const handleDelItem = (e) => {
+    // console.log(e)
+  }
+
+  
   return (
       <div className = {styles.background}>
           <h1 className = {styles.h1}>Pokemon App</h1>
@@ -205,8 +226,9 @@ export const Home = () => {
         onChange = {handleInput}
         name = "range"
         value = {user.range}
+        className = {styles.range}
       />
-      <Typography gutterBottom >How far is your nearest pokemon center? (in KMs)</Typography>
+      <Typography gutterBottom style = {{textAlign:"left", marginLeft:"10px"}} >How far is your nearest pokemon center? (in KMs)</Typography>
     
       <div>
       <FormControl required style ={{width: '100%'}} sx={{ m: 1}}>
@@ -256,7 +278,14 @@ export const Home = () => {
       </div>
 
       <div className = {styles.showItems}>
-          <p>{itemsQuantity}</p>
+          {itemsQuantity.map((item, index) => {
+            {/* console.log(item) */}
+            return(
+                <div className = {styles.itemsDiv}>
+                  <p className = {styles.itemDivPtag}>{item} <CancelIcon  sx = {{color: pink[500]}} /></p>
+                </div>
+              )
+          })}
       </div>
 
 

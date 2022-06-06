@@ -19,7 +19,7 @@ body, html {
       padding-top: 25px;
  }
  .box{
-    width: 28vw;
+    width: 30vw;
     height: auto;
     margin: auto;
     border-radius: 7px;
@@ -29,6 +29,7 @@ body, html {
     z-index: 1;
     opacity:1.5;
     background-color: white;
+    padding-bottom:5vh;
  }
  .textfield{
    background-color:"red"
@@ -61,14 +62,38 @@ body, html {
     justify-content: space-between;
     padding-top: 10px;
     align-items: center;
+    
  }
+ .showItems{
+   display: grid;
+  grid-template-columns: 32% 32% 32%;
+  grid-gap: 10px;
+
+ }
+ .itemsDiv{
+    border: 1px solid black;
+    border-radius: 25px;
+    background-color: rgb(91, 206, 245);
+    color: white;
+    height:auto;
+    width: auto;
+  }
+  .itemDivPtag{
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   gap: 5px;
+   font-weight: bold;
+ }
+
 .totalCost{
   display: flex;
   justify-content: space-between;
   padding-top: 10px;
-  
 }
-
+.range{
+  margin-left: 11px;  
+}
 
 
  @media only screen and (max-width:480px){

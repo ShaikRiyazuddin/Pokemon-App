@@ -4,24 +4,25 @@ export const UserContext = createContext();
 
 export const UserContextProvider = ({children}) => {
   const [userDetails, setUserDetails] = useState([]);
-  const [itemsQuantity, setItemsQuantity] = useState("");
+  const [itemsQuantity, setItemsQuantity] = useState([]);
   const [totalCost, setTotalCost] = useState(0);
 
   const handleItems = (v) => {
-    setItemsQuantity(v);
-    console.log(v)
-  }
-  console.log(itemsQuantity)
+    setItemsQuantity([...itemsQuantity,v]);
 
+  }
+
+  const handleCompleteDetails = (v) => {
+    setUserDetails(v);
+  }
   const handleCost = (v) => {
-    setTotalCost(v)
+    setTotalCost(totalCost + v)
   }
-  console.log(totalCost)
-
+ 
 
   return (
     <div>
-      <UserContext.Provider value={{itemsQuantity,totalCost, handleItems, handleCost}}>{children}</UserContext.Provider>
+      <UserContext.Provider value={{itemsQuantity,totalCost, handleItems, handleCost,userDetails,handleCompleteDetails}}>{children}</UserContext.Provider>
     </div>
   )
 }

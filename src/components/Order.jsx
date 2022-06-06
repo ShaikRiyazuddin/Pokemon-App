@@ -168,8 +168,9 @@ export const Order = () => {
             max={10}
             onChange = {handleRange}
             value={range}
+            className = {styles.range}
             />
-            <Typography gutterBottom >Select Quantity</Typography>
+            <Typography gutterBottom style = {{textAlign:"left", marginLeft:"6px", marginTop:"8px"}} >Select Quantity</Typography>
 
             <div className={styles.toggle}>
                 <p>I need a bag for that!</p>
