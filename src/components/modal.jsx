@@ -1,5 +1,5 @@
 
-/import {useState, useContext} from "react";
+import {useState, useContext} from "react";
 import {UserContext} from "../context/userContext";
 import styles from "./styles/modal.module.css";
 import Box from '@mui/material/Box';
